@@ -32,7 +32,7 @@ export default function Challenge1() {
           <div className="border-2 border-gray-700 p-8 bg-gray-900">
             <div className="text-6xl mb-4">🔒</div>
             <h2 className="text-gray-200 text-xl font-bold font-mono mb-2">
-              LIKELION SCH 비밀 금고
+              SCH 정보보호연구실 비밀 금고
             </h2>
             <p className="text-gray-500 text-sm font-mono">
               이 금고에는 중요한 비밀이 숨겨져 있습니다.
