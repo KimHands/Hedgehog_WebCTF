@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SCH 정보보호연구실 — Web Hacking CTF",
-  description: "정보보호연구실 동아리 박람회 웹해킹 CTF 플랫폼",
+  title: "암호동아리 Hedgehog — Web Hacking CTF",
+  description: "암호동아리 Hedgehog 동아리 박람회 웹해킹 CTF 플랫폼",
 };
 
 export default function RootLayout({

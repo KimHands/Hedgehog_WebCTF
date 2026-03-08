@@ -35,7 +35,7 @@ function DifficultyStars({ count }: { count: number }) {
 
 export default function LobbyPage() {
   const [solvedMap, setSolvedMap] = useState<Record<number, boolean>>({});
-  const title = useTypingEffect("SCH 정보보호연구실 — Web Hacking CTF");
+  const title = useTypingEffect("암호동아리 Hedgehog — Web Hacking CTF");
 
   useEffect(() => {
     const map: Record<number, boolean> = {};
@@ -141,7 +141,7 @@ export default function LobbyPage() {
         </div>
 
         <div className="mt-12 text-center text-gray-700 text-xs">
-          <div>SCH 정보보호연구실 CTF PLATFORM</div>
+          <div>암호동아리 Hedgehog CTF PLATFORM</div>
           <div className="mt-1">비전공자를 위한 웹 보안 체험</div>
         </div>
       </div>
