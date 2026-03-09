@@ -42,18 +42,18 @@ export default function Challenge1() {
                 ))}
               </div>
             </div>
-            {/* FLAG가 data-flag 속성에 숨겨진 구분선 */}
-            <div
-              className="mt-4 text-gray-700 text-xs font-mono cursor-default select-none"
-              data-flag="FLAG{y0u_f0und_th3_s3cr3t}"
-            >
-              -
-            </div>
           </div>
 
           <div className="text-gray-600 text-xs font-mono text-left space-y-1">
             <div>{">"} 화면에는 아무것도 없어 보이지만...</div>
             <div>{">"} 정말 아무것도 없을까요?</div>
+            {/* FLAG가 data-flag 속성에 숨겨진 요소 */}
+            <div
+              className="text-gray-700 cursor-default select-none"
+              data-flag="FLAG{y0u_f0und_th3_s3cr3t}"
+            >
+              -
+            </div>
             <div className="animate-pulse">{">"} _</div>
           </div>
         </div>
