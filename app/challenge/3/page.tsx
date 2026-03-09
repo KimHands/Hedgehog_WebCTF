@@ -4,9 +4,9 @@ import { useState } from "react";
 import ChallengeLayout from "@/components/ChallengeLayout";
 
 const HINTS = [
-  "로그인 시스템은 내부적으로 데이터베이스에 이런 질문을 합니다: '비밀번호가 입력값인 사용자가 있나요?'",
-  "만약 비밀번호 칸에 따옴표(')를 입력하면 어떻게 될까요? 시스템의 질문 구조가 깨질 수 있어요.",
-  "비밀번호 입력창에 ' OR '1'='1 을 입력해보세요. 1=1은 항상 참이기 때문에 조건을 우회할 수 있어요!",
+  "아래 SQL 쿼리 미리보기를 보세요! 비밀번호 칸에 입력하는 내용이 쿼리 안에 그대로 들어가고 있어요.",
+  "비밀번호 칸에 작은따옴표(') 하나만 입력해보세요. 쿼리의 따옴표 구조가 어떻게 바뀌나요?",
+  "따옴표로 비밀번호 조건을 닫은 뒤, 항상 참인 조건을 덧붙이면 어떨까요? ' OR '1'='1 을 입력해보세요!",
 ];
 
 function LoginForm() {
@@ -128,12 +128,24 @@ function LoginForm() {
           </div>
         </div>
 
-        <div className="text-gray-600 text-xs space-y-1">
-          <div>{">"} SQL: SELECT * FROM users WHERE</div>
-          <div className="pl-4">
-            username=&apos;admin&apos; AND password=&apos;[입력값]&apos;
+        <div className="text-xs space-y-1 font-mono">
+          <div className="text-gray-500 mb-1">[ 실행 중인 SQL 쿼리 미리보기 ]</div>
+          <div className="bg-gray-900 border border-gray-700 p-3 leading-relaxed">
+            <span className="text-purple-400">SELECT</span>
+            <span className="text-gray-300"> * </span>
+            <span className="text-purple-400">FROM</span>
+            <span className="text-gray-300"> users </span>
+            <span className="text-purple-400">WHERE</span>
+            <br />
+            <span className="pl-4 text-gray-300">
+              username=<span className="text-green-400">&apos;admin&apos;</span>
+              <span className="text-gray-300"> AND </span>
+              password=<span className="text-yellow-400">&apos;</span>
+              <span className="text-yellow-300">{password}</span>
+              <span className="text-yellow-400">&apos;</span>
+            </span>
           </div>
-          <div className="animate-pulse">{">"} _</div>
+          <div className="animate-pulse text-gray-600">{">"} _</div>
         </div>
       </div>
     </div>

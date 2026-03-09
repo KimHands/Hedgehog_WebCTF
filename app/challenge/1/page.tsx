@@ -1,9 +1,9 @@
 import ChallengeLayout from "@/components/ChallengeLayout";
 
 const HINTS = [
-  "화면에 보이는 것이 전부가 아닐 수 있어요. 웹페이지에는 숨겨진 코드가 있답니다.",
-  "브라우저에서 F12 키를 눌러보거나, 마우스 우클릭 → '페이지 소스 보기'를 해보세요.",
-  "소스 코드에서 <!-- 와 --> 사이에 있는 내용을 찾아보세요. 이것을 HTML 주석이라고 합니다.",
+  "화면에 보이는 요소들도 많은 정보를 숨기고 있을 수 있어요. 눈에 보이는 것 너머를 봐야 한답니다.",
+  "F12를 눌러 개발자 도구를 열고 'Elements' 탭을 확인해보세요. 또는 화면의 '-' 부분에 마우스 우클릭 → '검사(Inspect)'를 해보세요.",
+  "'-' 요소를 Elements 패널에서 클릭하면 HTML 속성 목록이 나타납니다. 'data-' 로 시작하는 속성에 무언가 숨겨져 있지 않을까요?",
 ];
 
 export default function Challenge1() {
@@ -13,19 +13,11 @@ export default function Challenge1() {
       title="눈에 보이지 않는 것들"
       category="View Source"
       difficulty={1}
-      objective="웹페이지의 HTML 소스 코드를 보는 방법을 배웁니다. 개발자 도구(F12)나 '페이지 소스 보기'를 통해 화면에 표시되지 않는 HTML 주석을 찾을 수 있습니다."
-      scenario="어느 웹사이트 관리자가 실수로 비밀 정보를 HTML에 남겨놓았습니다. 화면만 봐서는 아무것도 없어 보이지만..."
+      objective="개발자 도구의 Elements 탭으로 HTML 요소를 검사하는 방법을 배웁니다. 화면에 표시되지 않는 HTML 속성(data-*)을 통해 숨겨진 정보를 발견할 수 있습니다."
+      scenario="어느 웹사이트 관리자가 실수로 비밀 정보를 HTML 요소 속성에 남겨놓았습니다. 화면만 봐서는 아무것도 없어 보이지만..."
       hints={HINTS}
       correctFlag="FLAG{y0u_f0und_th3_s3cr3t}"
     >
-      {/* 실제 HTML 주석으로 렌더링되도록 dangerouslySetInnerHTML 사용 */}
-      <div
-        dangerouslySetInnerHTML={{
-          __html:
-            "<!-- 개발자 메모: 플래그는 FLAG{y0u_f0und_th3_s3cr3t} 입니다. 배포 전 삭제할 것! -->",
-        }}
-      />
-
       {/* 취약한 서비스 UI: 잠긴 금고 화면 */}
       <div className="flex items-center justify-center h-full min-h-[400px] p-8">
         <div className="text-center space-y-6 max-w-sm">
@@ -49,6 +41,13 @@ export default function Challenge1() {
                   />
                 ))}
               </div>
+            </div>
+            {/* FLAG가 data-flag 속성에 숨겨진 구분선 */}
+            <div
+              className="mt-4 text-gray-700 text-xs font-mono cursor-default select-none"
+              data-flag="FLAG{y0u_f0und_th3_s3cr3t}"
+            >
+              -
             </div>
           </div>
 
