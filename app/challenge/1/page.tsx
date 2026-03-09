@@ -2,8 +2,8 @@ import ChallengeLayout from "@/components/ChallengeLayout";
 
 const HINTS = [
   "화면에 보이는 요소들도 많은 정보를 숨기고 있을 수 있어요. 눈에 보이는 것 너머를 봐야 한답니다.",
-  "F12를 눌러 개발자 도구를 열고 'Elements' 탭을 확인해보세요. 또는 화면의 '-' 부분에 마우스 우클릭 → '검사(Inspect)'를 해보세요.",
-  "'-' 요소를 Elements 패널에서 클릭하면 HTML 속성 목록이 나타납니다. 'data-' 로 시작하는 속성에 무언가 숨겨져 있지 않을까요?",
+  "F12를 눌러 개발자 도구를 열고 'Elements' 탭을 확인해보세요. 또는 화면 아무 곳에나 마우스 우클릭 → '검사(Inspect)'를 해보세요.",
+  "Elements 패널에서 HTML 요소들을 하나씩 클릭해보세요. 'data-' 로 시작하는 속성에 무언가 숨겨져 있지 않을까요?",
 ];
 
 export default function Challenge1() {
@@ -49,11 +49,9 @@ export default function Challenge1() {
             <div>{">"} 정말 아무것도 없을까요?</div>
             {/* FLAG가 data-flag 속성에 숨겨진 요소 */}
             <div
-              className="text-gray-700 cursor-default select-none"
+              className="cursor-default select-none"
               data-flag="FLAG{y0u_f0und_th3_s3cr3t}"
-            >
-              -
-            </div>
+            />
             <div className="animate-pulse">{">"} _</div>
           </div>
         </div>
