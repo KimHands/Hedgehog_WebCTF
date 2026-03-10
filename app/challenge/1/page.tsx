@@ -21,30 +21,30 @@ export default function Challenge1() {
       {/* 취약한 서비스 UI: 잠긴 금고 화면 */}
       <div className="flex items-center justify-center h-full min-h-[400px] p-8">
         <div className="text-center space-y-6 max-w-sm">
-          <div className="border-2 border-gray-700 p-8 bg-gray-900">
+          <div className="border-2 border-gray-300 dark:border-gray-700 p-8 bg-white dark:bg-gray-900">
             <div className="text-6xl mb-4">🔒</div>
-            <h2 className="text-gray-200 text-xl font-bold font-mono mb-2">
+            <h2 className="text-gray-800 dark:text-gray-200 text-xl font-bold font-mono mb-2">
               암호동아리 Hedgehog 비밀 금고
             </h2>
             <p className="text-gray-500 text-sm font-mono">
               이 금고에는 중요한 비밀이 숨겨져 있습니다.
             </p>
-            <div className="mt-6 border border-gray-700 p-3">
-              <div className="text-gray-600 text-xs font-mono">
+            <div className="mt-6 border border-gray-300 dark:border-gray-700 p-3">
+              <div className="text-gray-400 dark:text-gray-600 text-xs font-mono">
                 VAULT STATUS: LOCKED
               </div>
               <div className="flex justify-center gap-1 mt-2">
                 {[...Array(6)].map((_, i) => (
                   <div
                     key={i}
-                    className="w-3 h-3 rounded-full bg-gray-700"
+                    className="w-3 h-3 rounded-full bg-gray-300 dark:bg-gray-700"
                   />
                 ))}
               </div>
             </div>
           </div>
 
-          <div className="text-gray-600 text-xs font-mono text-left space-y-1">
+          <div className="text-gray-400 dark:text-gray-600 text-xs font-mono text-left space-y-1">
             <div>{">"} 화면에는 아무것도 없어 보이지만...</div>
             <div>{">"} 정말 아무것도 없을까요?</div>
             {/* FLAG가 data-flag 속성에 숨겨진 요소 */}

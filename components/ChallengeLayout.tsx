@@ -20,7 +20,7 @@ function Stars({ count }: { count: number }) {
   return (
     <span className="font-mono text-sm">
       {"★".repeat(count)}
-      <span className="text-gray-600">{"★".repeat(3 - count)}</span>
+      <span className="text-gray-200 dark:text-gray-600">{"★".repeat(3 - count)}</span>
     </span>
   );
 }
@@ -37,16 +37,16 @@ export default function ChallengeLayout({
   children,
 }: ChallengeLayoutProps) {
   return (
-    <div className="min-h-screen bg-black text-gray-300 font-mono">
+    <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-700 dark:text-gray-300 font-mono">
       {/* Top bar */}
-      <div className="border-b border-gray-800 px-4 py-3 flex items-center justify-between">
+      <div className="border-b border-gray-200 dark:border-gray-800 px-4 py-3 flex items-center justify-between">
         <Link
           href="/"
-          className="text-green-400 hover:text-green-300 text-sm transition-colors"
+          className="text-green-500 dark:text-green-400 hover:text-green-600 dark:hover:text-green-300 text-sm transition-colors"
         >
           &lt;&lt; BACK TO LOBBY
         </Link>
-        <div className="text-gray-500 text-xs">
+        <div className="text-gray-500 text-xs pr-20">
           CHALLENGE_{challengeId.toString().padStart(2, "0")} / {category}
         </div>
       </div>
@@ -54,17 +54,17 @@ export default function ChallengeLayout({
       {/* Main content */}
       <div className="flex flex-col lg:flex-row h-[calc(100vh-49px)]">
         {/* Left panel */}
-        <div className="lg:w-[420px] border-r border-gray-800 flex flex-col overflow-y-auto">
+        <div className="lg:w-[420px] border-r border-gray-200 dark:border-gray-800 flex flex-col overflow-y-auto">
           <div className="p-6 space-y-6">
             {/* Title */}
             <div>
               <div className="text-xs text-gray-500 mb-1">
                 [CHALLENGE_{challengeId.toString().padStart(2, "0")}]
               </div>
-              <h1 className="text-green-400 text-xl font-bold">{title}</h1>
+              <h1 className="text-green-500 dark:text-green-400 text-xl font-bold">{title}</h1>
               <div className="flex items-center gap-3 mt-1">
                 <Stars count={difficulty} />
-                <span className="text-xs text-cyan-500 border border-cyan-500/40 px-2 py-0.5">
+                <span className="text-xs text-cyan-600 dark:text-cyan-500 border border-cyan-500/40 px-2 py-0.5">
                   {category}
                 </span>
               </div>
@@ -72,14 +72,14 @@ export default function ChallengeLayout({
 
             {/* Objective */}
             <div className="border border-cyan-500/30 bg-cyan-500/5 p-4">
-              <div className="text-cyan-400 text-xs mb-2">// 공격 목표</div>
-              <p className="text-gray-300 text-sm leading-relaxed">{objective}</p>
+              <div className="text-cyan-600 dark:text-cyan-400 text-xs mb-2">// 공격 목표</div>
+              <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed">{objective}</p>
             </div>
 
             {/* Scenario */}
             <div className="border-l-2 border-green-500 pl-4">
-              <div className="text-green-400 text-xs mb-1">SCENARIO</div>
-              <p className="text-gray-400 text-sm leading-relaxed italic">
+              <div className="text-green-500 dark:text-green-400 text-xs mb-1">SCENARIO</div>
+              <p className="text-gray-500 text-sm leading-relaxed italic">
                 &ldquo;{scenario}&rdquo;
               </p>
             </div>
@@ -99,7 +99,7 @@ export default function ChallengeLayout({
         </div>
 
         {/* Right panel - vulnerable service */}
-        <div className="flex-1 overflow-auto bg-gray-950">{children}</div>
+        <div className="flex-1 overflow-auto bg-gray-100 dark:bg-gray-950">{children}</div>
       </div>
     </div>
   );

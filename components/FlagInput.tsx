@@ -33,16 +33,16 @@ export default function FlagInput({
     return (
       <div className="space-y-4">
         <div className="p-4 border border-green-500 bg-green-500/10 text-center animate-pulse">
-          <div className="text-green-400 font-mono text-lg font-bold">
+          <div className="text-green-500 dark:text-green-400 font-mono text-lg font-bold">
             [SUCCESS] FLAG ACCEPTED
           </div>
-          <div className="text-green-300 font-mono text-sm mt-1">
+          <div className="text-green-600 dark:text-green-300 font-mono text-sm mt-1">
             문제를 해결했습니다!
           </div>
         </div>
         <button
           onClick={() => router.push("/")}
-          className="w-full py-2 font-mono text-sm border border-green-500 text-green-400 hover:bg-green-500 hover:text-black transition-all duration-200"
+          className="w-full py-2 font-mono text-sm border border-green-500 text-green-500 dark:text-green-400 hover:bg-green-500 hover:text-white dark:hover:text-black transition-all duration-200"
         >
           &lt;&lt; 메인으로 돌아가기
         </button>
@@ -63,18 +63,18 @@ export default function FlagInput({
           onChange={(e) => setValue(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
           placeholder="FLAG{...}"
-          className="flex-1 bg-black border border-gray-600 px-3 py-2 font-mono text-sm text-green-400 focus:outline-none focus:border-green-500 placeholder:text-gray-600"
+          className="flex-1 bg-white dark:bg-black border border-gray-300 dark:border-gray-600 px-3 py-2 font-mono text-sm text-green-600 dark:text-green-400 focus:outline-none focus:border-green-500 placeholder:text-gray-400 dark:placeholder:text-gray-600"
         />
         <button
           onClick={handleSubmit}
-          className="px-4 py-2 font-mono text-sm border border-green-500 text-green-400 hover:bg-green-500 hover:text-black transition-all duration-200"
+          className="px-4 py-2 font-mono text-sm border border-green-500 text-green-500 dark:text-green-400 hover:bg-green-500 hover:text-white dark:hover:text-black transition-all duration-200"
         >
           SUBMIT
         </button>
       </div>
 
       {status === "error" && (
-        <div className="text-red-400 font-mono text-xs">
+        <div className="text-red-500 dark:text-red-400 font-mono text-xs">
           [ERROR] 틀렸습니다. 다시 시도해보세요.
         </div>
       )}

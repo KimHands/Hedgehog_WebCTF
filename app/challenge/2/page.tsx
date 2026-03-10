@@ -44,9 +44,9 @@ function AdminPanel() {
   return (
     <div className="flex items-center justify-center h-full min-h-[400px] p-8">
       <div className="w-full max-w-md space-y-6 font-mono">
-        <div className="border border-gray-700 bg-gray-900">
+        <div className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900">
           {/* Title bar */}
-          <div className="border-b border-gray-700 px-4 py-2 flex items-center gap-2">
+          <div className="border-b border-gray-300 dark:border-gray-700 px-4 py-2 flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-red-500" />
             <div className="w-3 h-3 rounded-full bg-yellow-500" />
             <div className="w-3 h-3 rounded-full bg-green-500" />
@@ -58,20 +58,20 @@ function AdminPanel() {
           <div className="p-6 space-y-4">
             <div className="text-center">
               <div className="text-2xl mb-2">🔐</div>
-              <h2 className="text-gray-200 text-lg font-bold">
+              <h2 className="text-gray-800 dark:text-gray-200 text-lg font-bold">
                 비밀 관리자 시스템
               </h2>
             </div>
 
-            <div className="border border-gray-700 p-3 bg-black">
+            <div className="border border-gray-300 dark:border-gray-700 p-3 bg-gray-50 dark:bg-black">
               <div className="text-xs text-gray-500 mb-1">현재 세션</div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-yellow-400" />
-                <span className="text-yellow-400 text-sm">
+                <span className="text-yellow-600 dark:text-yellow-400 text-sm">
                   로그인: guest 사용자
                 </span>
               </div>
-              <div className="text-gray-600 text-xs mt-1">
+              <div className="text-gray-400 dark:text-gray-600 text-xs mt-1">
                 role=guest (권한 레벨: 0)
               </div>
             </div>
@@ -79,7 +79,7 @@ function AdminPanel() {
             <button
               onClick={fetchFlag}
               disabled={loading}
-              className="w-full py-3 border border-cyan-500 text-cyan-400 hover:bg-cyan-500 hover:text-black transition-all duration-200 text-sm disabled:opacity-50"
+              className="w-full py-3 border border-cyan-500 text-cyan-600 dark:text-cyan-400 hover:bg-cyan-500 hover:text-white dark:hover:text-black transition-all duration-200 text-sm disabled:opacity-50"
             >
               {loading ? "확인 중..." : "관리자 전용 플래그 보기"}
             </button>
@@ -88,15 +88,15 @@ function AdminPanel() {
               <div
                 className={`p-3 border text-sm ${
                   isError
-                    ? "border-red-500/50 bg-red-500/10 text-red-400"
-                    : "border-green-500/50 bg-green-500/10 text-green-400"
+                    ? "border-red-500/50 bg-red-500/10 text-red-500 dark:text-red-400"
+                    : "border-green-500/50 bg-green-500/10 text-green-600 dark:text-green-400"
                 }`}
               >
                 {isError ? (
                   <span>[ERROR] {result}</span>
                 ) : (
                   <div>
-                    <div className="text-xs text-gray-400 mb-1">
+                    <div className="text-xs text-gray-500 mb-1">
                       [SUCCESS] 관리자 인증 완료
                     </div>
                     <div className="font-bold">{result}</div>
@@ -107,7 +107,7 @@ function AdminPanel() {
           </div>
         </div>
 
-        <div className="text-gray-600 text-xs space-y-1">
+        <div className="text-gray-400 dark:text-gray-600 text-xs space-y-1">
           <div>{">"} 쿠키에 role=guest 가 설정되었습니다.</div>
           <div>{">"} 관리자 권한이 필요합니다...</div>
           <div className="animate-pulse">{">"} _</div>
