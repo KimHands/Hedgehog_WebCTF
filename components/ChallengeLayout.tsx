@@ -3,6 +3,7 @@
 import Link from "next/link";
 import HintSystem from "./HintSystem";
 import FlagInput from "./FlagInput";
+import { useEffect, useState } from "react";
 
 interface ChallengeLayoutProps {
   challengeId: number;
@@ -13,6 +14,8 @@ interface ChallengeLayoutProps {
   scenario: string;
   hints: string[];
   correctFlag: string;
+  isSpeedrun?: boolean;
+  nextChallengeId?: number;
   children: React.ReactNode;
 }
 
@@ -25,6 +28,27 @@ function Stars({ count }: { count: number }) {
   );
 }
 
+function SpeedrunTimer({ startTime }: { startTime: number }) {
+  const [elapsed, setElapsed] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setElapsed(Date.now() - startTime);
+    }, 100);
+    return () => clearInterval(interval);
+  }, [startTime]);
+
+  const mins = Math.floor(elapsed / 60000);
+  const secs = Math.floor((elapsed % 60000) / 1000);
+  const tenths = Math.floor((elapsed % 1000) / 100);
+
+  return (
+    <div className="font-mono text-yellow-500 dark:text-yellow-400 text-sm font-bold tabular-nums">
+      ⏱ {mins.toString().padStart(2, "0")}:{secs.toString().padStart(2, "0")}.{tenths}
+    </div>
+  );
+}
+
 export default function ChallengeLayout({
   challengeId,
   title,
@@ -34,8 +58,21 @@ export default function ChallengeLayout({
   scenario,
   hints,
   correctFlag,
+  isSpeedrun,
+  nextChallengeId,
   children,
 }: ChallengeLayoutProps) {
+  const [speedrunStart, setSpeedrunStart] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (isSpeedrun) {
+      const stored = localStorage.getItem("ctf_speedrun_start");
+      if (stored) {
+        setSpeedrunStart(parseInt(stored));
+      }
+    }
+  }, [isSpeedrun]);
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-black text-gray-700 dark:text-gray-300 font-mono">
       {/* Top bar */}
@@ -44,10 +81,20 @@ export default function ChallengeLayout({
           href="/"
           className="text-green-500 dark:text-green-400 hover:text-green-600 dark:hover:text-green-300 text-sm transition-colors"
         >
-          &lt;&lt; BACK TO LOBBY
+          {"<< BACK TO LOBBY"}
         </Link>
-        <div className="text-gray-500 text-xs pr-20">
-          CHALLENGE_{challengeId.toString().padStart(2, "0")} / {category}
+        <div className="flex items-center gap-4">
+          {isSpeedrun && speedrunStart && (
+            <SpeedrunTimer startTime={speedrunStart} />
+          )}
+          {isSpeedrun && (
+            <span className="text-xs border border-yellow-500 text-yellow-500 px-2 py-0.5">
+              SPEEDRUN
+            </span>
+          )}
+          <div className="text-gray-500 text-xs">
+            CHALLENGE_{challengeId.toString().padStart(2, "0")} / {category}
+          </div>
         </div>
       </div>
 
@@ -87,13 +134,24 @@ export default function ChallengeLayout({
             {/* Hints */}
             <div>
               <div className="text-gray-500 text-xs mb-3">HINT SYSTEM</div>
-              <HintSystem hints={hints} />
+              <HintSystem hints={hints} maxHints={isSpeedrun ? 2 : undefined} />
             </div>
 
             {/* Flag input */}
             <div>
               <div className="text-gray-500 text-xs mb-3">FLAG SUBMISSION</div>
-              <FlagInput correctFlag={correctFlag} challengeId={challengeId} />
+              <FlagInput
+                correctFlag={correctFlag}
+                challengeId={challengeId}
+                isSpeedrun={isSpeedrun}
+                nextChallengeId={nextChallengeId}
+              />
+            </div>
+
+            {/* Keyboard shortcut hint */}
+            <div className="text-gray-400 dark:text-gray-600 text-xs border-t border-gray-200 dark:border-gray-800 pt-4">
+              <span className="border border-gray-300 dark:border-gray-700 px-1">Alt+H</span>
+              {" "} 로비로 돌아가기
             </div>
           </div>
         </div>

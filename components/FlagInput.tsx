@@ -6,12 +6,16 @@ import { useRouter } from "next/navigation";
 interface FlagInputProps {
   correctFlag: string;
   challengeId: number;
+  isSpeedrun?: boolean;
+  nextChallengeId?: number;
   onSuccess?: () => void;
 }
 
 export default function FlagInput({
   correctFlag,
   challengeId,
+  isSpeedrun,
+  nextChallengeId,
   onSuccess,
 }: FlagInputProps) {
   const [value, setValue] = useState("");
@@ -23,6 +27,20 @@ export default function FlagInput({
       localStorage.setItem(`challenge_${challengeId}_solved`, "true");
       setStatus("success");
       onSuccess?.();
+
+      if (isSpeedrun) {
+        if (nextChallengeId) {
+          setTimeout(() => router.push(`/challenge/${nextChallengeId}`), 1200);
+        } else {
+          // 마지막 챌린지 완료 → 완료 시간 저장 후 로비로
+          const startTime = localStorage.getItem("ctf_speedrun_start");
+          if (startTime) {
+            const elapsed = Date.now() - parseInt(startTime);
+            localStorage.setItem("ctf_speedrun_result", elapsed.toString());
+          }
+          setTimeout(() => router.push("/"), 1500);
+        }
+      }
     } else {
       setStatus("error");
       setTimeout(() => setStatus("idle"), 1500);
@@ -37,15 +55,21 @@ export default function FlagInput({
             [SUCCESS] FLAG ACCEPTED
           </div>
           <div className="text-green-600 dark:text-green-300 font-mono text-sm mt-1">
-            문제를 해결했습니다!
+            {isSpeedrun
+              ? nextChallengeId
+                ? "다음 레벨로 이동 중..."
+                : "모든 챌린지 완료! 로비로 이동 중..."
+              : "문제를 해결했습니다!"}
           </div>
         </div>
-        <button
-          onClick={() => router.push("/")}
-          className="w-full py-2 font-mono text-sm border border-green-500 text-green-500 dark:text-green-400 hover:bg-green-500 hover:text-white dark:hover:text-black transition-all duration-200"
-        >
-          &lt;&lt; 메인으로 돌아가기
-        </button>
+        {!isSpeedrun && (
+          <button
+            onClick={() => router.push("/")}
+            className="w-full py-2 font-mono text-sm border border-green-500 text-green-500 dark:text-green-400 hover:bg-green-500 hover:text-white dark:hover:text-black transition-all duration-200"
+          >
+            {"<< 메인으로 돌아가기"}
+          </button>
+        )}
       </div>
     );
   }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import ThemeProvider from "@/components/ThemeProvider";
 import ThemeToggle from "@/components/ThemeToggle";
+import KeyboardShortcut from "@/components/KeyboardShortcut";
 
 export const metadata: Metadata = {
   title: "암호동아리 Hedgehog — Web Hacking CTF",
@@ -18,6 +19,7 @@ export default function RootLayout({
       <body className="antialiased">
         <ThemeProvider>
           <ThemeToggle />
+          <KeyboardShortcut />
           {children}
         </ThemeProvider>
       </body>
