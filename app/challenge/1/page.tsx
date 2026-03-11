@@ -6,7 +6,7 @@ import ChallengeLayout from "@/components/ChallengeLayout";
 // ── 일반 모드 ──────────────────────────────────────────────
 const NORMAL_HINTS = [
   "브라우저는 서버로부터 받은 HTML 코드를 그대로 갖고 있어요. '렌더링된 화면'과 '원본 코드'는 다를 수 있답니다.",
-  "마우스 우클릭 → '페이지 소스 보기'를 클릭해보세요. 또는 Windows/Linux는 Ctrl+U, Mac은 Cmd+Option+U를 눌러보세요.",
+  "F12를 눌러 개발자 도구를 열어보세요 (Mac은 Cmd+Option+I). 'Elements' 탭에서 HTML 구조를 직접 탐색할 수 있습니다.",
   "소스 코드에서 <!-- 로 시작하는 줄을 찾아보세요. HTML 주석은 화면에 표시되지 않지만, 소스에는 고스란히 남아있답니다!",
 ];
 const NORMAL_FLAG = "FLAG{html_c0mm3nts_4r3_v1s1bl3}";

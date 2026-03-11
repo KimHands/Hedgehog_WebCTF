@@ -117,7 +117,7 @@ function SpeedrunUnionForm() {
 
   return (
     <div className="flex items-center justify-center h-full min-h-[400px] p-8">
-      <div className="w-full max-w-sm space-y-4 font-mono">
+      <div className="w-full max-w-md space-y-4 font-mono">
         <div className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900">
           <div className="border-b border-gray-300 dark:border-gray-700 px-4 py-2 flex items-center gap-2">
             <div className="w-3 h-3 rounded-full bg-red-500" />

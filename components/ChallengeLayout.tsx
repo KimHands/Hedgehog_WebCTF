@@ -5,6 +5,14 @@ import HintSystem from "./HintSystem";
 import FlagInput from "./FlagInput";
 import { useEffect, useState } from "react";
 
+function useShortcutLabel() {
+  const [label, setLabel] = useState("Alt+H");
+  useEffect(() => {
+    if (/Mac|iPhone|iPad|iPod/.test(navigator.platform)) setLabel("⌥+H");
+  }, []);
+  return label;
+}
+
 interface ChallengeLayoutProps {
   challengeId: number;
   title: string;
@@ -63,6 +71,7 @@ export default function ChallengeLayout({
   children,
 }: ChallengeLayoutProps) {
   const [speedrunStart, setSpeedrunStart] = useState<number | null>(null);
+  const shortcutLabel = useShortcutLabel();
 
   useEffect(() => {
     if (isSpeedrun) {
@@ -150,8 +159,8 @@ export default function ChallengeLayout({
 
             {/* Keyboard shortcut hint */}
             <div className="text-gray-400 dark:text-gray-600 text-xs border-t border-gray-200 dark:border-gray-800 pt-4">
-              <span className="border border-gray-300 dark:border-gray-700 px-1">Alt+H</span>
-              {" "} 로비로 돌아가기
+              <span className="border border-gray-300 dark:border-gray-700 px-1">{shortcutLabel}</span>
+              {" "} 세션 초기화 후 로비로
             </div>
           </div>
         </div>

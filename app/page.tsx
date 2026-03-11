@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CHALLENGES, SPEEDRUN_CHALLENGES } from "@/lib/challenges";
@@ -41,12 +41,78 @@ function formatTime(ms: number) {
   return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}.${tenths}`;
 }
 
+function useShortcutLabel() {
+  const [label, setLabel] = useState("Alt+H");
+  useEffect(() => {
+    if (/Mac|iPhone|iPad|iPod/.test(navigator.platform)) setLabel("⌥+H");
+  }, []);
+  return label;
+}
+
+function ReviewInput({
+  challengeId,
+  challengeTitle,
+  solved,
+}: {
+  challengeId: number;
+  challengeTitle: string;
+  solved: boolean;
+}) {
+  const key = `challenge_${challengeId}_review`;
+  const [review, setReview] = useState("");
+  const [saved, setSaved] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    setReview(localStorage.getItem(key) ?? "");
+  }, [key]);
+
+  function saveReview(value: string) {
+    setReview(value);
+    localStorage.setItem(key, value);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 1200);
+  }
+
+  return (
+    <div
+      className="border-t border-gray-200 dark:border-gray-800 px-4 py-3 bg-white dark:bg-gray-950"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <div className="text-gray-400 dark:text-gray-600 text-xs mb-1.5">
+        // 리뷰 메모 {solved ? "(풀이 완료)" : "(미해결)"}
+      </div>
+      <div className="flex gap-2 items-center">
+        <input
+          ref={inputRef}
+          type="text"
+          value={review}
+          onChange={(e) => setReview(e.target.value)}
+          onBlur={(e) => saveReview(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              saveReview(review);
+              inputRef.current?.blur();
+            }
+          }}
+          placeholder="한 줄 메모 입력 후 Enter..."
+          className="flex-1 bg-gray-50 dark:bg-black border border-gray-200 dark:border-gray-800 px-2 py-1 text-xs text-gray-700 dark:text-gray-300 font-mono focus:outline-none focus:border-green-500/60 placeholder:text-gray-300 dark:placeholder:text-gray-700"
+        />
+        {saved && (
+          <span className="text-green-500 text-xs font-mono shrink-0">저장됨</span>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function LobbyPage() {
   const [solvedMap, setSolvedMap] = useState<Record<number, boolean>>({});
   const [mode, setMode] = useState<"normal" | "speedrun">("normal");
   const [speedrunResult, setSpeedrunResult] = useState<number | null>(null);
   const router = useRouter();
   const title = useTypingEffect("암호동아리 Hedgehog — Web Hacking CTF");
+  const shortcutLabel = useShortcutLabel();
 
   const challenges = mode === "speedrun" ? SPEEDRUN_CHALLENGES : CHALLENGES;
 
@@ -70,7 +136,6 @@ export default function LobbyPage() {
     setMode(newMode);
     localStorage.setItem("ctf_mode", newMode);
     if (newMode === "speedrun") {
-      // 스피드런 시작 시 타이머 초기화
       localStorage.setItem("ctf_speedrun_start", Date.now().toString());
       localStorage.removeItem("ctf_speedrun_result");
       setSpeedrunResult(null);
@@ -80,6 +145,31 @@ export default function LobbyPage() {
   function startSpeedrun() {
     switchMode("speedrun");
     router.push("/challenge/1");
+  }
+
+  function exportReviews() {
+    const lines: string[] = [];
+    lines.push("암호동아리 Hedgehog CTF — 문제 리뷰 기록");
+    lines.push(`생성일: ${new Date().toLocaleString("ko-KR")}`);
+    lines.push("=".repeat(48));
+    lines.push("");
+
+    CHALLENGES.forEach((c) => {
+      const solved = solvedMap[c.id] ? "✅ 해결" : "⬜ 미해결";
+      const review = localStorage.getItem(`challenge_${c.id}_review`) ?? "";
+      lines.push(`[CHALLENGE_${c.id.toString().padStart(2, "0")}] ${c.title}`);
+      lines.push(`카테고리: ${c.category} | 상태: ${solved}`);
+      lines.push(`리뷰: ${review || "(작성 없음)"}`);
+      lines.push("");
+    });
+
+    const blob = new Blob([lines.join("\n")], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `hedgehog-ctf-review-${new Date().toISOString().slice(0, 10)}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   const normalSolvedCount = Object.values(solvedMap).filter(Boolean).length;
@@ -192,64 +282,84 @@ export default function LobbyPage() {
             const solved = mode === "normal" ? solvedMap[challenge.id] : false;
             const href = `/challenge/${challenge.id}`;
             return (
-              <Link key={challenge.id} href={href}>
-                <div
-                  className={`relative border p-6 hover:-translate-y-1 transition-transform duration-200 cursor-pointer group ${
-                    solved
-                      ? "border-green-500/60 bg-green-500/5"
-                      : mode === "speedrun"
-                      ? "border-yellow-500/40 hover:border-yellow-500/80"
-                      : "border-gray-300 dark:border-gray-700 hover:border-green-500/60"
-                  }`}
-                >
-                  {solved && (
-                    <div className="absolute top-3 right-3 bg-green-500 text-white dark:text-black text-xs font-bold px-2 py-0.5">
-                      SOLVED
-                    </div>
-                  )}
-                  {mode === "speedrun" && (
-                    <div className="absolute top-3 right-3 border border-yellow-500/60 text-yellow-500 text-xs px-2 py-0.5">
-                      SPEEDRUN
-                    </div>
-                  )}
-                  <div className="text-gray-400 dark:text-gray-600 text-xs mb-3">
-                    CHALLENGE_{challenge.id.toString().padStart(2, "0")}
-                  </div>
-                  <h2
-                    className={`font-bold text-base mb-2 ${
+              <div key={challenge.id} className="flex flex-col">
+                <Link href={href}>
+                  <div
+                    className={`relative border p-6 hover:-translate-y-1 transition-transform duration-200 cursor-pointer group ${
                       solved
-                        ? "text-green-500 dark:text-green-400"
+                        ? "border-green-500/60 bg-green-500/5"
                         : mode === "speedrun"
-                        ? "text-yellow-500 dark:text-yellow-400"
-                        : "text-gray-800 dark:text-gray-200 group-hover:text-green-500 dark:group-hover:text-green-400"
-                    } transition-colors`}
+                        ? "border-yellow-500/40 hover:border-yellow-500/80"
+                        : "border-gray-300 dark:border-gray-700 hover:border-green-500/60"
+                    }`}
                   >
-                    {challenge.title}
-                  </h2>
-                  <div className="mb-3">
-                    <DifficultyStars count={challenge.difficulty} />
+                    {solved && (
+                      <div className="absolute top-3 right-3 bg-green-500 text-white dark:text-black text-xs font-bold px-2 py-0.5">
+                        SOLVED
+                      </div>
+                    )}
+                    {mode === "speedrun" && (
+                      <div className="absolute top-3 right-3 border border-yellow-500/60 text-yellow-500 text-xs px-2 py-0.5">
+                        SPEEDRUN
+                      </div>
+                    )}
+                    <div className="text-gray-400 dark:text-gray-600 text-xs mb-3">
+                      CHALLENGE_{challenge.id.toString().padStart(2, "0")}
+                    </div>
+                    <h2
+                      className={`font-bold text-base mb-2 ${
+                        solved
+                          ? "text-green-500 dark:text-green-400"
+                          : mode === "speedrun"
+                          ? "text-yellow-500 dark:text-yellow-400"
+                          : "text-gray-800 dark:text-gray-200 group-hover:text-green-500 dark:group-hover:text-green-400"
+                      } transition-colors`}
+                    >
+                      {challenge.title}
+                    </h2>
+                    <div className="mb-3">
+                      <DifficultyStars count={challenge.difficulty} />
+                    </div>
+                    <p className="text-gray-500 text-xs leading-relaxed mb-4">
+                      {challenge.description}
+                    </p>
+                    <div className="inline-block border border-cyan-500/40 text-cyan-600 dark:text-cyan-500 text-xs px-2 py-0.5">
+                      {challenge.category}
+                    </div>
+                    <div className="mt-4 text-gray-400 dark:text-gray-600 text-xs group-hover:text-green-500 dark:group-hover:text-green-400 transition-colors">
+                      {">"} 문제 풀기
+                    </div>
                   </div>
-                  <p className="text-gray-500 text-xs leading-relaxed mb-4">
-                    {challenge.description}
-                  </p>
-                  <div className="inline-block border border-cyan-500/40 text-cyan-600 dark:text-cyan-500 text-xs px-2 py-0.5">
-                    {challenge.category}
-                  </div>
-                  <div className="mt-4 text-gray-400 dark:text-gray-600 text-xs group-hover:text-green-500 dark:group-hover:text-green-400 transition-colors">
-                    {">"} 문제 풀기
-                  </div>
-                </div>
-              </Link>
+                </Link>
+                {/* 리뷰 입력 영역 */}
+                <ReviewInput
+                  challengeId={challenge.id}
+                  challengeTitle={challenge.title}
+                  solved={solved}
+                />
+              </div>
             );
           })}
         </div>
 
-        <div className="mt-12 text-center text-gray-300 dark:text-gray-700 text-xs space-y-1">
+        {/* 리뷰 내보내기 */}
+        {mode === "normal" && (
+          <div className="mt-8 text-center">
+            <button
+              onClick={exportReviews}
+              className="px-5 py-2 text-xs border border-gray-300 dark:border-gray-700 text-gray-500 hover:border-green-500/60 hover:text-green-500 transition-all duration-200"
+            >
+              📄 리뷰 텍스트 파일로 저장
+            </button>
+          </div>
+        )}
+
+        <div className="mt-8 text-center text-gray-300 dark:text-gray-700 text-xs space-y-1">
           <div>암호동아리 Hedgehog CTF PLATFORM</div>
           <div>비전공자를 위한 웹 보안 체험</div>
           <div className="text-gray-200 dark:text-gray-800">
-            <span className="border border-gray-200 dark:border-gray-800 px-1">Alt+H</span>
-            {" "}언제든 로비로 돌아오기
+            <span className="border border-gray-200 dark:border-gray-800 px-1">{shortcutLabel}</span>
+            {" "}세션 초기화 후 로비로
           </div>
         </div>
       </div>
