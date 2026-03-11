@@ -44,8 +44,8 @@ function NormalContent() {
           </div>
         </div>
 
-        {/* HTML 주석에 flag 숨김 (소스 보기로 발견 가능) */}
-        {/* FLAG{html_c0mm3nts_4r3_v1s1bl3} */}
+        {/* 실제 HTML 주석으로 렌더링 — 소스 보기로 발견 가능 */}
+        <div dangerouslySetInnerHTML={{ __html: '<!-- 개발자 메모: 플래그는 FLAG{html_c0mm3nts_4r3_v1s1bl3} 입니다. 배포 전 삭제할 것! -->' }} />
 
         <div className="text-gray-400 dark:text-gray-600 text-xs font-mono text-left space-y-1">
           <div>{">"} 화면에는 아무 비밀도 없어 보이지만...</div>
