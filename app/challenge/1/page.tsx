@@ -29,7 +29,7 @@ function NormalContent() {
         <div className="border-2 border-gray-300 dark:border-gray-700 p-8 bg-white dark:bg-gray-900">
           <div className="text-6xl mb-4">📜</div>
           <h2 className="text-gray-800 dark:text-gray-200 text-xl font-bold font-mono mb-2">
-            암호동아리 Hedgehog 비밀 문서
+            암호동아리 Hedgehog-정보보호 연구실 비밀 문서
           </h2>
           <p className="text-gray-500 text-sm font-mono">
             이 페이지에는 공개된 내용만 있습니다.
