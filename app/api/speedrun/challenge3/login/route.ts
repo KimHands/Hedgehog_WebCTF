@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
   }
 
   // 일반 검색 결과 (SQLi 아닌 경우)
-  const validUsers = ["admin", "user1", "hedgehog"];
+  const validUsers = ["admin", "user1", "Information_Security"];
   if (validUsers.includes(username.toLowerCase()) && !username.includes("'")) {
     return NextResponse.json({
       success: true,

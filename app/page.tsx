@@ -111,7 +111,7 @@ export default function LobbyPage() {
   const [mode, setMode] = useState<"normal" | "speedrun">("normal");
   const [speedrunResult, setSpeedrunResult] = useState<number | null>(null);
   const router = useRouter();
-  const title = useTypingEffect("암호동아리 Hedgehog-정보보호 연구실");
+  const title = useTypingEffect("정보보호 연구실");
   const shortcutLabel = useShortcutLabel();
 
   const challenges = mode === "speedrun" ? SPEEDRUN_CHALLENGES : CHALLENGES;
@@ -149,7 +149,7 @@ export default function LobbyPage() {
 
   function exportReviews() {
     const lines: string[] = [];
-    lines.push("암호동아리 Hedgehog-정보보호 연구실 — 문제 리뷰 기록");
+    lines.push("정보보호 연구실 — 문제 리뷰 기록");
     lines.push(`생성일: ${new Date().toLocaleString("ko-KR")}`);
     lines.push("=".repeat(48));
     lines.push("");
@@ -167,7 +167,7 @@ export default function LobbyPage() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = `hedgehog-ctf-review-${new Date().toISOString().slice(0, 10)}.txt`;
+    a.download = `ctf-review-${new Date().toISOString().slice(0, 10)}.txt`;
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -355,7 +355,7 @@ export default function LobbyPage() {
         )}
 
         <div className="mt-8 text-center text-gray-300 dark:text-gray-700 text-xs space-y-1">
-          <div>암호동아리 Hedgehog-정보보호 연구실</div>
+          <div>정보보호 연구실</div>
           <div>비전공자를 위한 웹 보안 체험</div>
           <div className="text-gray-200 dark:text-gray-800">
             <span className="border border-gray-200 dark:border-gray-800 px-1">{shortcutLabel}</span>

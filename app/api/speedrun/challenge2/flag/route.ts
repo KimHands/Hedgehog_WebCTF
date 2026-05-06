@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 
 // 타임어택 모드 Challenge 2: HTTP 커스텀 헤더 인증 우회
-// X-Admin-Secret: hedgehog 헤더가 있어야 flag 반환
+// X-Admin-Secret: Information_Security 헤더가 있어야 flag 반환
 export async function GET(request: NextRequest) {
   const adminSecret = request.headers.get("x-admin-secret");
 
-  if (adminSecret === "hedgehog") {
+  if (adminSecret === "Information_Security") {
     return NextResponse.json({
       flag: "FLAG{cust0m_h34d3rs_byp4ss_4ccess}",
     });

@@ -14,7 +14,7 @@ const NORMAL_FLAG = "FLAG{l0c4l_st0r4g3_1snt_s3cr3t}";
 // ── 타임어택 모드 ──────────────────────────────────────────
 const SPEEDRUN_HINTS = [
   "Network 탭에서 버튼 클릭 시 발생하는 API 요청을 분석해보세요. 요청 헤더 중 빠진 것이 있지 않을까요?",
-  "Console에서 fetch('/api/speedrun/challenge2/flag', {headers: {'X-Admin-Secret': '???'}}) 형태로 올바른 값을 찾아보세요. 동아리 이름이 힌트입니다.",
+  "Console에서 fetch('/api/speedrun/challenge2/flag', {headers: {'X-Admin-Secret': '???'}}) 형태로 올바른 값을 찾아보세요. 이 사이트의 주제(정보보호)를 영문으로 표기한 값입니다.",
 ];
 const SPEEDRUN_FLAG = "FLAG{cust0m_h34d3rs_byp4ss_4ccess}";
 

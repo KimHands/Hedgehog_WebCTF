@@ -5,8 +5,8 @@ import ThemeToggle from "@/components/ThemeToggle";
 import KeyboardShortcut from "@/components/KeyboardShortcut";
 
 export const metadata: Metadata = {
-  title: "암호동아리 Hedgehog-정보보호 연구실",
-  description: "암호동아리 Hedgehog-정보보호 연구실",
+  title: "정보보호 연구실",
+  description: "정보보호 연구실",
 };
 
 export default function RootLayout({
